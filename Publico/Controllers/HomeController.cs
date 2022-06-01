@@ -22,7 +22,8 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var currentUser = _userManager.GetUserAsync();
+        var currentUser = await _userManager.GetUserAsync(User);
+        ViewBag.CurrentUserName = currentUser.UserName;
         var messages = await _context.Messages.ToListAsync();
         return View();
     }
@@ -36,5 +37,15 @@ public class HomeController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+    public async Task<IActionResult> Create(Message message)
+    {
+        if(ModelState.IsValid)
+        {
+            message.UserName = User.Identity.Name;
+            var sender = await _userManager.GetUserAsync(User);
+            message.UserID = sender.Id;
+        }
     }
 }
