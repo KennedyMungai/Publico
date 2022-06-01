@@ -4,6 +4,7 @@ namespace Publico.Models;
 
 public class Message
 {
+    [Key]
     public int Id { get; set; }
     [Required]
     public string? UserName { get; set; }
@@ -11,6 +12,6 @@ public class Message
     public string? Text { get; set; }
     public DateTime When { get; set; }
 
-    public int UserID { get; set; }
-    public virtual AppUser AppUser {get; set;}
+    public string? UserID { get; set; }
+    public virtual AppUser Sender {get; set;}
 }
